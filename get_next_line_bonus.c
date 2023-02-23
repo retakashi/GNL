@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 14:59:13 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/23 15:28:35 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/02/21 22:27:34 by rtakashi          #+#    #+#             */
+/*   Updated: 2023/02/23 15:36:16 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*get_line(char *line)
 {
@@ -29,14 +29,6 @@ static char	*get_buf(char *buf)
 {
 	size_t	i;
 
-	if (buf == NULL)
-	{
-		buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (buf == NULL)
-			return (NULL);
-		buf[0] = '\0';
-		return (buf);
-	}
 	if (!ft_strchr(buf, '\n'))
 		return (buf);
 	i = 0;
@@ -56,7 +48,8 @@ static char	*readnum_under(ssize_t read_num, char *buf, char *line)
 		buf[0] = '\0';
 		return (line);
 	}
-	return (line);
+	else
+		return (line);
 }
 
 static char	*buf_readjoin(char *buf, char *line, int fd)
@@ -85,64 +78,45 @@ static char	*buf_readjoin(char *buf, char *line, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*buf;
+	static char	buf[OPEN_MAX + 1][BUFFER_SIZE + 1];
 	char		*line;
-	char		test[1];
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || 0 > read(fd, test, 0))
+	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0 || BUFFER_SIZE > SIZE_MAX)
 		return (NULL);
-	if (buf == NULL)
-	{
-		buf = get_buf(buf);
-		if (buf == NULL)
-			return (NULL);
-	}
 	line = NULL;
-	line = buf_readjoin(buf, line, fd);
-	if (ft_strchr(buf, '\n'))
-		get_buf(buf);
-	if (line == NULL)
+	if (ft_strchr(buf[fd], '\n'))
 	{
-		free(buf);
-		buf = NULL;
+		line = ft_strjoin(line, buf[fd]);
+		if (line == NULL)
+			return (NULL);
+		get_buf(buf[fd]);
+		return (get_line(line));
 	}
+	line = buf_readjoin(buf[fd], line, fd);
+	get_buf(buf[fd]);
 	return (line);
 }
 
-// __attribute__((destructor)) static void destructor()
+// int    main(void)
 // {
-// 	system("leaks -q a.out");
-// }
+//     int        fd;
+//     int        fd_2;
+//     char    *get_line;
 
-// int	main(void)
-// {
-// 	char *str;
-// 	int fd;
+//     fd = open("text", O_RDONLY);
+//     fd_2 = open("text2", O_RDONLY);
+//     get_line=get_next_line(fd);
+//     printf("%s", get_line);
+//     free(get_line);
 
-// 	fd = open("text", O_RDONLY);
-// 	if (fd == -1)
-// 		return (0);
-// 	while (1)
-// 	{
-// 		str = get_next_line(fd);
-// 		printf("%s", str);
-// 		free(str);
-// 		if (!str)
-// 			break ;
-// 	}
-// 	str = get_next_line(fd);
-// 	close(fd);
-// 	return (0);
-// }
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	int	fd;
+//     get_line=get_next_line(fd_2);
+//     printf("%s", get_line);
+//     free(get_line);
 
-// 	fd = open("text", O_RDONLY);
-// 	printf("%s \n", get_next_line(42)); // ok
-// 	close(fd);
-// 	printf("read ret %d\n", read(fd, NULL, 0));
-// 	printf("%s\n", get_next_line(fd));
-// 	return (0);
+//     get_line=get_next_line(fd);
+//     printf("%s", get_line);
+//     free(get_line);
+//     close(fd);
+//     close(fd_2);
+//     return (0);
 // }
