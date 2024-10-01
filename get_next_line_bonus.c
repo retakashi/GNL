@@ -97,26 +97,27 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// int    main(void)
-// {
-//     int        fd;
-//     int        fd_2;
-//     char    *get_line;
+#include <stdio.h>
+int    main(void)
+{
+    int        fd;
+    int        fd_2;
+    char    *get_line;
 
-//     fd = open("text", O_RDONLY);
-//     fd_2 = open("text2", O_RDONLY);
-//     get_line=get_next_line(fd);
-//     printf("%s", get_line);
-//     free(get_line);
+    fd = open("text", O_RDONLY);
+    fd_2 = open("text2", O_RDONLY);
+    get_line=get_next_line(fd);
+    printf("%s", get_line);
+    free(get_line);
 
-//     get_line=get_next_line(fd_2);
-//     printf("%s", get_line);
-//     free(get_line);
+    get_line=get_next_line(fd_2);
+    printf("%s", get_line);
+    free(get_line);
 
-//     get_line=get_next_line(fd);
-//     printf("%s", get_line);
-//     free(get_line);
-//     close(fd);
-//     close(fd_2);
-//     return (0);
-// }
+    get_line=get_next_line(fd);
+    printf("%s", get_line);
+    free(get_line);
+    close(fd);
+    close(fd_2);
+    return (0);
+}

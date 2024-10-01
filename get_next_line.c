@@ -109,40 +109,29 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// __attribute__((destructor)) static void destructor()
-// {
-// 	system("leaks -q a.out");
-// }
+__attribute__((destructor)) static void destructor()
+{
+	system("leaks -q a.out");
+}
 
-// int	main(void)
-// {
-// 	char *str;
-// 	int fd;
+#include <stdio.h>
+int	main(void)
+{
+	char *str;
+	int fd;
 
-// 	fd = open("text", O_RDONLY);
-// 	if (fd == -1)
-// 		return (0);
-// 	while (1)
-// 	{
-// 		str = get_next_line(fd);
-// 		printf("%s", str);
-// 		free(str);
-// 		if (!str)
-// 			break ;
-// 	}
-// 	str = get_next_line(fd);
-// 	close(fd);
-// 	return (0);
-// }
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	int	fd;
-
-// 	fd = open("text", O_RDONLY);
-// 	printf("%s \n", get_next_line(42)); // ok
-// 	close(fd);
-// 	printf("read ret %d\n", read(fd, NULL, 0));
-// 	printf("%s\n", get_next_line(fd));
-// 	return (0);
-// }
+	fd = open("text", O_RDONLY);
+	if (fd == -1)
+		return (0);
+	while (1)
+	{
+		str = get_next_line(fd);
+		printf("%s", str);
+		free(str);
+		if (!str)
+			break ;
+	}
+	str = get_next_line(fd);
+	close(fd);
+	return (0);
+}
