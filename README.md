@@ -3,8 +3,10 @@
 ## Overview
 A function that reads a file line by line. It was implemented in C.
 
-## Requirement
-macOS
+## Implementation Environment
+- **Programming Language**: C
+- **Operating Systems**: macOS
+- **Compiler**: Apple Clang 15.0.0 (clang-1500.3.9.4), Target: arm64-apple-darwin23.6.0
 
 ## Usage
 ![gif](https://github.com/retakashi/GNL/blob/master/gnl.gif)
